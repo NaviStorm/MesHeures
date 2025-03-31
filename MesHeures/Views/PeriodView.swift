@@ -1,9 +1,12 @@
-// Fichier: Views/PeriodView.swift
 import SwiftUI
 
 struct PeriodView: View {
     @EnvironmentObject var workViewModel: WorkViewModel
-    var period: WorkPeriod
+    @State private var period: WorkPeriod
+    
+    init(period: WorkPeriod) {
+        _period = State(initialValue: period)
+    }
     
     var body: some View {
         VStack {
@@ -23,18 +26,28 @@ struct PeriodView: View {
             // Statistiques de la période
             let stats = workViewModel.getPeriodStatistics(for: period)
             StatisticsView(worked: stats.worked, expected: stats.expected, overtime: stats.overtime)
-                .padding()
+                .padding(.horizontal)
             
             // Liste des semaines
             List {
                 ForEach(period.weeks) { week in
-                    NavigationLink(destination: WeekView(week: week)) {
+                    NavigationLink {
+                        WeekView(week: week)
+                    } label: {
                         WeekSummaryRow(week: week)
                     }
+                    .isDetailLink(true) // Ceci est important pour assurer la navigation correcte
                 }
             }
+            .listStyle(InsetGroupedListStyle())
         }
         .navigationTitle("Période \(period.name)")
+        .onAppear {
+            // Assurez-vous que la période est à jour lorsque la vue apparaît
+            if let updatedPeriod = workViewModel.periods.first(where: { $0.id == period.id }) {
+                self.period = updatedPeriod
+            }
+        }
     }
     
     private func formatDate(_ date: Date) -> String {
@@ -44,5 +57,3 @@ struct PeriodView: View {
         return formatter.string(from: date)
     }
 }
-
-

@@ -1,9 +1,12 @@
-// Fichier: Views/WeekView.swift
 import SwiftUI
 
 struct WeekView: View {
-    var week: WorkWeek
     @EnvironmentObject var workViewModel: WorkViewModel
+    @State private var week: WorkWeek
+    
+    init(week: WorkWeek) {
+        _week = State(initialValue: week)
+    }
     
     var body: some View {
         VStack {
@@ -24,13 +27,32 @@ struct WeekView: View {
             // Liste des jours
             List {
                 ForEach(week.days) { day in
-                    NavigationLink(destination: DayEditorView(day: day)) {
+                    NavigationLink {
+                        DayEditorView(day: day)
+                    } label: {
                         DaySummaryRow(day: day)
                     }
+                    .isDetailLink(true)
                 }
             }
+            .listStyle(InsetGroupedListStyle())
         }
         .navigationTitle("Détail Semaine")
+        .onAppear {
+            // S'assurer que les données de la semaine sont à jour
+            if let updatedWeek = getUpdatedWeek() {
+                self.week = updatedWeek
+            }
+        }
+    }
+    
+    private func getUpdatedWeek() -> WorkWeek? {
+        for period in workViewModel.periods {
+            if let updatedWeek = period.weeks.first(where: { $0.id == week.id }) {
+                return updatedWeek
+            }
+        }
+        return nil
     }
     
     private func formatDate(_ date: Date) -> String {
@@ -40,5 +62,3 @@ struct WeekView: View {
         return formatter.string(from: date)
     }
 }
-
-

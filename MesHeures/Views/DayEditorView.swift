@@ -1,4 +1,3 @@
-// Fichier: Views/DayEditorView.swift
 import SwiftUI
 
 struct DayEditorView: View {
@@ -35,22 +34,22 @@ struct DayEditorView: View {
             if workDay.isWorkday {
                 Section(header: Text("Horaires de travail")) {
                     TimePickerRow(title: "Début journée", time: Binding(
-                        get: { workDay.startTime ?? Date() },
+                        get: { workDay.startTime ?? Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: workDay.date) ?? workDay.date },
                         set: { workDay.startTime = $0 }
                     ))
                     
                     TimePickerRow(title: "Début pause", time: Binding(
-                        get: { workDay.lunchStartTime ?? Date() },
+                        get: { workDay.lunchStartTime ?? Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: workDay.date) ?? workDay.date },
                         set: { workDay.lunchStartTime = $0 }
                     ))
                     
                     TimePickerRow(title: "Fin pause", time: Binding(
-                        get: { workDay.lunchEndTime ?? Date() },
+                        get: { workDay.lunchEndTime ?? Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: workDay.date) ?? workDay.date },
                         set: { workDay.lunchEndTime = $0 }
                     ))
                     
                     TimePickerRow(title: "Fin journée", time: Binding(
-                        get: { workDay.endTime ?? Date() },
+                        get: { workDay.endTime ?? Calendar.current.date(bySettingHour: 18, minute: 0, second: 0, of: workDay.date) ?? workDay.date },
                         set: { workDay.endTime = $0 }
                     ))
                     
@@ -66,7 +65,6 @@ struct DayEditorView: View {
             Section(header: Text("Notes")) {
                 TextEditor(text: $workDay.notes)
                     .frame(minHeight: 100)
-// Suite du fichier: Views/DayEditorView.swift
             }
             
             Section {
@@ -78,7 +76,10 @@ struct DayEditorView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
                 .frame(maxWidth: .infinity)
-                .buttonStyle(.borderedProminent)
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.blue)
+                .cornerRadius(10)
             }
         }
         .navigationTitle("Modifier Journée")
@@ -113,5 +114,3 @@ struct DayEditorView: View {
         return "00:00"
     }
 }
-
-
