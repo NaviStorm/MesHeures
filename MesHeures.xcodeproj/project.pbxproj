@@ -1,0 +1,524 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		04A1E93027FDAE3D00EA8947 /* MesHeuresApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E92F27FDAE3D00EA8947 /* MesHeuresApp.swift */; };
+		04A1E93427FDAE3F00EA8947 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A1E93327FDAE3F00EA8947 /* Assets.xcassets */; };
+		04A1E93727FDAE3F00EA8947 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A1E93627FDAE3F00EA8947 /* Preview Assets.xcassets */; };
+		04A1E94827FDAFC200EA8947 /* WorkDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E94727FDAFC200EA8947 /* WorkDay.swift */; };
+		04A1E94A27FDAFD800EA8947 /* WorkWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E94927FDAFD800EA8947 /* WorkWeek.swift */; };
+		04A1E94C27FDAFF000EA8947 /* WorkPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E94B27FDAFF000EA8947 /* WorkPeriod.swift */; };
+		04A1E94E27FDB00A00EA8947 /* WorkSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E94D27FDB00A00EA8947 /* WorkSettings.swift */; };
+		04A1E95027FDB02400EA8947 /* AbsenceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E94F27FDB02400EA8947 /* AbsenceType.swift */; };
+		04A1E95227FDB04B00EA8947 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E95127FDB04B00EA8947 /* MainView.swift */; };
+		04A1E95427FDB06100EA8947 /* PeriodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E95327FDB06100EA8947 /* PeriodView.swift */; };
+		04A1E95627FDB07500EA8947 /* WeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E95527FDB07500EA8947 /* WeekView.swift */; };
+		04A1E95827FDB08600EA8947 /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E95727FDB08600EA8947 /* DayView.swift */; };
+		04A1E95A27FDB09800EA8947 /* DayEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E95927FDB09800EA8947 /* DayEditorView.swift */; };
+		04A1E95C27FDB0AA00EA8947 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E95B27FDB0AA00EA8947 /* SettingsView.swift */; };
+		04A1E96027FDB10500EA8947 /* DaySummaryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E95F27FDB10500EA8947 /* DaySummaryRow.swift */; };
+		04A1E96227FDB11900EA8947 /* WeekSummaryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E96127FDB11900EA8947 /* WeekSummaryRow.swift */; };
+		04A1E96427FDB13200EA8947 /* PeriodSummaryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E96327FDB13200EA8947 /* PeriodSummaryRow.swift */; };
+		04A1E96627FDB14F00EA8947 /* WorkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E96527FDB14F00EA8947 /* WorkViewModel.swift */; };
+		04A1E96827FDB16400EA8947 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E96727FDB16400EA8947 /* SettingsViewModel.swift */; };
+		04A1E96A27FDB18100EA8947 /* TimeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E96927FDB18100EA8947 /* TimeCalculator.swift */; };
+		04A1E96C27FDB19800EA8947 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E96B27FDB19800EA8947 /* DateExtensions.swift */; };
+		04A1E96E27FDB1B600EA8947 /* TimeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E96D27FDB1B600EA8947 /* TimeExtensions.swift */; };
+		04A1E97027FDB1CC00EA8947 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E96F27FDB1CC00EA8947 /* ColorExtensions.swift */; };
+		04A1E97227FDB1E800EA8947 /* DataPersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E97127FDB1E800EA8947 /* DataPersistenceService.swift */; };
+		04A1E97427FDB1FB00EA8947 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E97327FDB1FB00EA8947 /* NotificationService.swift */; };
+		04A1E97627FDB21900EA8947 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E97527FDB21900EA8947 /* AppDelegate.swift */; };
+		04A1E97827FDB23F00EA8947 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E97727FDB23F00EA8947 /* StatisticsView.swift */; };
+		04A1E97A27FDB25D00EA8947 /* AbsenceTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E97927FDB25D00EA8947 /* AbsenceTypePicker.swift */; };
+		04A1E97C27FDB27D00EA8947 /* TimeIntervalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E97B27FDB27D00EA8947 /* TimeIntervalPicker.swift */; };
+		04A1E97E27FDB29300EA8947 /* TimePickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E97D27FDB29300EA8947 /* TimePickerRow.swift */; };
+		BAACD42E2D9ACC0B0016CC51 /* TimePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAACD42D2D9ACC0B0016CC51 /* TimePickerView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		04A1E92C27FDAE3D00EA8947 /* MesHeures.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MesHeures.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		04A1E92F27FDAE3D00EA8947 /* MesHeuresApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MesHeuresApp.swift; sourceTree = "<group>"; };
+		04A1E93327FDAE3F00EA8947 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		04A1E93627FDAE3F00EA8947 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		04A1E94727FDAFC200EA8947 /* WorkDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkDay.swift; sourceTree = "<group>"; };
+		04A1E94927FDAFD800EA8947 /* WorkWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkWeek.swift; sourceTree = "<group>"; };
+		04A1E94B27FDAFF000EA8947 /* WorkPeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkPeriod.swift; sourceTree = "<group>"; };
+		04A1E94D27FDB00A00EA8947 /* WorkSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkSettings.swift; sourceTree = "<group>"; };
+		04A1E94F27FDB02400EA8947 /* AbsenceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbsenceType.swift; sourceTree = "<group>"; };
+		04A1E95127FDB04B00EA8947 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		04A1E95327FDB06100EA8947 /* PeriodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodView.swift; sourceTree = "<group>"; };
+		04A1E95527FDB07500EA8947 /* WeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekView.swift; sourceTree = "<group>"; };
+		04A1E95727FDB08600EA8947 /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
+		04A1E95927FDB09800EA8947 /* DayEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayEditorView.swift; sourceTree = "<group>"; };
+		04A1E95B27FDB0AA00EA8947 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		04A1E95F27FDB10500EA8947 /* DaySummaryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySummaryRow.swift; sourceTree = "<group>"; };
+		04A1E96127FDB11900EA8947 /* WeekSummaryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSummaryRow.swift; sourceTree = "<group>"; };
+		04A1E96327FDB13200EA8947 /* PeriodSummaryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodSummaryRow.swift; sourceTree = "<group>"; };
+		04A1E96527FDB14F00EA8947 /* WorkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkViewModel.swift; sourceTree = "<group>"; };
+		04A1E96727FDB16400EA8947 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		04A1E96927FDB18100EA8947 /* TimeCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCalculator.swift; sourceTree = "<group>"; };
+		04A1E96B27FDB19800EA8947 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
+		04A1E96D27FDB1B600EA8947 /* TimeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeExtensions.swift; sourceTree = "<group>"; };
+		04A1E96F27FDB1CC00EA8947 /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
+		04A1E97127FDB1E800EA8947 /* DataPersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPersistenceService.swift; sourceTree = "<group>"; };
+		04A1E97327FDB1FB00EA8947 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		04A1E97527FDB21900EA8947 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		04A1E97727FDB23F00EA8947 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
+		04A1E97927FDB25D00EA8947 /* AbsenceTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbsenceTypePicker.swift; sourceTree = "<group>"; };
+		04A1E97B27FDB27D00EA8947 /* TimeIntervalPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalPicker.swift; sourceTree = "<group>"; };
+		04A1E97D27FDB29300EA8947 /* TimePickerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerRow.swift; sourceTree = "<group>"; };
+		04A1E97F27FDB2AA00EA8947 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BAACD42D2D9ACC0B0016CC51 /* TimePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		04A1E92927FDAE3D00EA8947 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		04A1E92327FDAE3D00EA8947 = {
+			isa = PBXGroup;
+			children = (
+				04A1E92E27FDAE3D00EA8947 /* MesHeures */,
+				04A1E92D27FDAE3D00EA8947 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		04A1E92D27FDAE3D00EA8947 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				04A1E92C27FDAE3D00EA8947 /* MesHeures.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		04A1E92E27FDAE3D00EA8947 /* MesHeures */ = {
+			isa = PBXGroup;
+			children = (
+				04A1E93D27FDAEBC00EA8947 /* App */,
+				04A1E93E27FDAEC800EA8947 /* Models */,
+				04A1E93F27FDAED100EA8947 /* Views */,
+				04A1E94027FDAEDA00EA8947 /* ViewModels */,
+				04A1E94127FDAEE100EA8947 /* Utils */,
+				04A1E94227FDAEEA00EA8947 /* Services */,
+				04A1E94327FDAEF400EA8947 /* Resources */,
+				04A1E93527FDAE3F00EA8947 /* Preview Content */,
+			);
+			path = MesHeures;
+			sourceTree = "<group>";
+		};
+		04A1E93527FDAE3F00EA8947 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				04A1E93627FDAE3F00EA8947 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		04A1E93D27FDAEBC00EA8947 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				04A1E92F27FDAE3D00EA8947 /* MesHeuresApp.swift */,
+				04A1E97527FDB21900EA8947 /* AppDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		04A1E93E27FDAEC800EA8947 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				04A1E94727FDAFC200EA8947 /* WorkDay.swift */,
+				04A1E94927FDAFD800EA8947 /* WorkWeek.swift */,
+				04A1E94B27FDAFF000EA8947 /* WorkPeriod.swift */,
+				04A1E94D27FDB00A00EA8947 /* WorkSettings.swift */,
+				04A1E94F27FDB02400EA8947 /* AbsenceType.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		04A1E93F27FDAED100EA8947 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				04A1E94427FDAF3000EA8947 /* Components */,
+				04A1E95127FDB04B00EA8947 /* MainView.swift */,
+				04A1E95327FDB06100EA8947 /* PeriodView.swift */,
+				04A1E95527FDB07500EA8947 /* WeekView.swift */,
+				04A1E95727FDB08600EA8947 /* DayView.swift */,
+				04A1E95927FDB09800EA8947 /* DayEditorView.swift */,
+				04A1E95B27FDB0AA00EA8947 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		04A1E94027FDAEDA00EA8947 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				04A1E96527FDB14F00EA8947 /* WorkViewModel.swift */,
+				04A1E96727FDB16400EA8947 /* SettingsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		04A1E94127FDAEE100EA8947 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				04A1E96927FDB18100EA8947 /* TimeCalculator.swift */,
+				04A1E96B27FDB19800EA8947 /* DateExtensions.swift */,
+				04A1E96D27FDB1B600EA8947 /* TimeExtensions.swift */,
+				04A1E96F27FDB1CC00EA8947 /* ColorExtensions.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		04A1E94227FDAEEA00EA8947 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				04A1E97127FDB1E800EA8947 /* DataPersistenceService.swift */,
+				04A1E97327FDB1FB00EA8947 /* NotificationService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		04A1E94327FDAEF400EA8947 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				04A1E93327FDAE3F00EA8947 /* Assets.xcassets */,
+				04A1E97F27FDB2AA00EA8947 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		04A1E94427FDAF3000EA8947 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BAACD42D2D9ACC0B0016CC51 /* TimePickerView.swift */,
+				04A1E95F27FDB10500EA8947 /* DaySummaryRow.swift */,
+				04A1E96127FDB11900EA8947 /* WeekSummaryRow.swift */,
+				04A1E96327FDB13200EA8947 /* PeriodSummaryRow.swift */,
+				04A1E97727FDB23F00EA8947 /* StatisticsView.swift */,
+				04A1E97927FDB25D00EA8947 /* AbsenceTypePicker.swift */,
+				04A1E97B27FDB27D00EA8947 /* TimeIntervalPicker.swift */,
+				04A1E97D27FDB29300EA8947 /* TimePickerRow.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		04A1E92B27FDAE3D00EA8947 /* MesHeures */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04A1E93A27FDAE3F00EA8947 /* Build configuration list for PBXNativeTarget "MesHeures" */;
+			buildPhases = (
+				04A1E92827FDAE3D00EA8947 /* Sources */,
+				04A1E92927FDAE3D00EA8947 /* Frameworks */,
+				04A1E92A27FDAE3D00EA8947 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MesHeures;
+			productName = MesHeures;
+			productReference = 04A1E92C27FDAE3D00EA8947 /* MesHeures.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		04A1E92427FDAE3D00EA8947 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1330;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					04A1E92B27FDAE3D00EA8947 = {
+						CreatedOnToolsVersion = 13.3;
+					};
+				};
+			};
+			buildConfigurationList = 04A1E92727FDAE3D00EA8947 /* Build configuration list for PBXProject "MesHeures" */;
+			developmentRegion = fr;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				fr,
+				Base,
+			);
+			mainGroup = 04A1E92327FDAE3D00EA8947;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 04A1E92D27FDAE3D00EA8947 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				04A1E92B27FDAE3D00EA8947 /* MesHeures */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		04A1E92A27FDAE3D00EA8947 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04A1E93727FDAE3F00EA8947 /* Preview Assets.xcassets in Resources */,
+				04A1E93427FDAE3F00EA8947 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		04A1E92827FDAE3D00EA8947 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04A1E94827FDAFC200EA8947 /* WorkDay.swift in Sources */,
+				04A1E96E27FDB1B600EA8947 /* TimeExtensions.swift in Sources */,
+				04A1E96A27FDB18100EA8947 /* TimeCalculator.swift in Sources */,
+				04A1E96227FDB11900EA8947 /* WeekSummaryRow.swift in Sources */,
+				04A1E95627FDB07500EA8947 /* WeekView.swift in Sources */,
+				04A1E97227FDB1E800EA8947 /* DataPersistenceService.swift in Sources */,
+				04A1E97627FDB21900EA8947 /* AppDelegate.swift in Sources */,
+				04A1E95A27FDB09800EA8947 /* DayEditorView.swift in Sources */,
+				04A1E97C27FDB27D00EA8947 /* TimeIntervalPicker.swift in Sources */,
+				04A1E96C27FDB19800EA8947 /* DateExtensions.swift in Sources */,
+				04A1E97A27FDB25D00EA8947 /* AbsenceTypePicker.swift in Sources */,
+				04A1E97E27FDB29300EA8947 /* TimePickerRow.swift in Sources */,
+				04A1E94A27FDAFD800EA8947 /* WorkWeek.swift in Sources */,
+				04A1E95027FDB02400EA8947 /* AbsenceType.swift in Sources */,
+				BAACD42E2D9ACC0B0016CC51 /* TimePickerView.swift in Sources */,
+				04A1E97427FDB1FB00EA8947 /* NotificationService.swift in Sources */,
+				04A1E97027FDB1CC00EA8947 /* ColorExtensions.swift in Sources */,
+				04A1E94C27FDAFF000EA8947 /* WorkPeriod.swift in Sources */,
+				04A1E95827FDB08600EA8947 /* DayView.swift in Sources */,
+				04A1E95227FDB04B00EA8947 /* MainView.swift in Sources */,
+				04A1E96027FDB10500EA8947 /* DaySummaryRow.swift in Sources */,
+				04A1E96427FDB13200EA8947 /* PeriodSummaryRow.swift in Sources */,
+				04A1E93027FDAE3D00EA8947 /* MesHeuresApp.swift in Sources */,
+				04A1E96627FDB14F00EA8947 /* WorkViewModel.swift in Sources */,
+				04A1E95427FDB06100EA8947 /* PeriodView.swift in Sources */,
+				04A1E97827FDB23F00EA8947 /* StatisticsView.swift in Sources */,
+				04A1E94E27FDB00A00EA8947 /* WorkSettings.swift in Sources */,
+				04A1E96827FDB16400EA8947 /* SettingsViewModel.swift in Sources */,
+				04A1E95C27FDB0AA00EA8947 /* SettingsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		04A1E93827FDAE3F00EA8947 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		04A1E93927FDAE3F00EA8947 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		04A1E93B27FDAE3F00EA8947 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"MesHeures/Preview Content\"";
+				DEVELOPMENT_TEAM = RTMWCLXVLL;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MesHeures/Resources/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.votrenom.MesHeures;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		04A1E93C27FDAE3F00EA8947 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"MesHeures/Preview Content\"";
+				DEVELOPMENT_TEAM = RTMWCLXVLL;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MesHeures/Resources/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.votrenom.MesHeures;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		04A1E92727FDAE3D00EA8947 /* Build configuration list for PBXProject "MesHeures" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04A1E93827FDAE3F00EA8947 /* Debug */,
+				04A1E93927FDAE3F00EA8947 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04A1E93A27FDAE3F00EA8947 /* Build configuration list for PBXNativeTarget "MesHeures" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04A1E93B27FDAE3F00EA8947 /* Debug */,
+				04A1E93C27FDAE3F00EA8947 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 04A1E92427FDAE3D00EA8947 /* Project object */;
+}
