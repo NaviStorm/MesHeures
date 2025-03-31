@@ -43,7 +43,16 @@ struct DayEditorView: View {
                     }
                 }
                 .sheet(isPresented: $showingAbsenceTypePicker) {
-                    AbsenceTypePicker(selectedType: $workDay.absenceType)
+                    AbsenceTypePicker(selectedType: Binding(
+                        get: { workDay.absenceType },
+                        set: {
+                            workDay.absenceType = $0
+                            // Recalculer immédiatement le temps travaillé après modification du type d'absence
+                            DispatchQueue.main.async {
+                                updateCalculation()
+                            }
+                        }
+                    ))
                 }
             }
             
@@ -151,6 +160,9 @@ struct DayEditorView: View {
     }
     
     private func updateCalculation() {
+        // Mettre d'abord à jour les champs du workDay pour un calcul précis
+        updateWorkDayFromFields()
+        
         if workDay.absenceType == nil {
             // Jour normal travaillé - calcul standard
             let workedTime = TimeCalculator.calculateWorkedTime(
@@ -161,9 +173,8 @@ struct DayEditorView: View {
             )
             calculatedTime = TimeCalculator.formatTimeInterval(workedTime)
         } else {
-            // Utiliser le calcul spécial pour les absences
-            let updatedDay = workDay
-            calculatedTime = updatedDay.formattedWorkedTime
+            // Utiliser directement le calcul d'heures travaillées de WorkDay
+            calculatedTime = workDay.formattedWorkedTime
         }
     }
     
