@@ -24,9 +24,10 @@ struct WeekView: View {
             StatisticsView(worked: stats.worked, expected: stats.standard, overtime: stats.overtime)
                 .padding(.horizontal)
             
-            // Liste des jours
+            // Liste des jours - uniquement les jours travaillés
             List {
-                ForEach(week.days) { day in
+                // Filtrer pour ne montrer que les jours configurés comme jours travaillés dans les paramètres
+                ForEach(workableDays) { day in
                     NavigationLink {
                         DayEditorView(day: day)
                     } label: {
@@ -43,6 +44,14 @@ struct WeekView: View {
             if let updatedWeek = getUpdatedWeek() {
                 self.week = updatedWeek
             }
+        }
+    }
+    
+    // Calculer les jours travaillés uniquement
+    private var workableDays: [WorkDay] {
+        return week.days.filter { day in
+            // Vérifier si ce jour est configuré comme un jour travaillé dans les paramètres
+            return WorkSettings.shared.isWorkDay(day.date)
         }
     }
     

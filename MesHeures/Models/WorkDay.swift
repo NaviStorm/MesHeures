@@ -47,23 +47,16 @@ struct WorkDay: Identifiable, Codable {
     }
     
     // Méthode pour définir des horaires standard basés sur les paramètres
+    // Nouvelle version avec les horaires spécifiés:
     mutating func setDefaultTimes() {
         let settings = WorkSettings.shared
         let calendar = Calendar.current
         let dayStart = calendar.startOfDay(for: date)
         
-        // Extraire les composants de temps des paramètres
-        let startComponents = calendar.dateComponents([.hour, .minute], from: settings.dayStartTime)
-        let endComponents = calendar.dateComponents([.hour, .minute], from: settings.dayEndTime)
-        
-        // Calculer un temps de pause par défaut
-        let lunchStartHour = 12
-        let lunchEndHour = 13
-        
-        // Définir les temps
-        startTime = calendar.date(bySettingHour: startComponents.hour ?? 9, minute: startComponents.minute ?? 0, second: 0, of: dayStart)
-        lunchStartTime = calendar.date(bySettingHour: lunchStartHour, minute: 0, second: 0, of: dayStart)
-        lunchEndTime = calendar.date(bySettingHour: lunchEndHour, minute: 0, second: 0, of: dayStart)
-        endTime = calendar.date(bySettingHour: endComponents.hour ?? 18, minute: endComponents.minute ?? 0, second: 0, of: dayStart)
+        // Défini selon les horaires spécifiés
+        startTime = calendar.date(bySettingHour: 7, minute: 0, second: 0, of: dayStart)
+        lunchStartTime = calendar.date(bySettingHour: 13, minute: 0, second: 0, of: dayStart)
+        lunchEndTime = calendar.date(bySettingHour: 13, minute: 20, second: 0, of: dayStart)
+        endTime = calendar.date(bySettingHour: 16, minute: 0, second: 0, of: dayStart)
     }
 }

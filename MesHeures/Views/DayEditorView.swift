@@ -14,6 +14,8 @@ struct DayEditorView: View {
     @State private var endTime: Date
     @State private var calculatedTime: String = "00:00"
     
+    // Modifier la partie init de DayEditorView.swift pour les heures par défaut
+
     init(day: WorkDay) {
         _workDay = State(initialValue: day)
         
@@ -21,10 +23,10 @@ struct DayEditorView: View {
         let calendar = Calendar.current
         let dayStart = calendar.startOfDay(for: day.date)
         
-        _startTime = State(initialValue: day.startTime ?? calendar.date(bySettingHour: 9, minute: 0, second: 0, of: dayStart) ?? dayStart)
-        _lunchStartTime = State(initialValue: day.lunchStartTime ?? calendar.date(bySettingHour: 12, minute: 0, second: 0, of: dayStart) ?? dayStart)
-        _lunchEndTime = State(initialValue: day.lunchEndTime ?? calendar.date(bySettingHour: 13, minute: 0, second: 0, of: dayStart) ?? dayStart)
-        _endTime = State(initialValue: day.endTime ?? calendar.date(bySettingHour: 18, minute: 0, second: 0, of: dayStart) ?? dayStart)
+        _startTime = State(initialValue: day.startTime ?? calendar.date(bySettingHour: 7, minute: 0, second: 0, of: dayStart) ?? dayStart)
+        _lunchStartTime = State(initialValue: day.lunchStartTime ?? calendar.date(bySettingHour: 13, minute: 0, second: 0, of: dayStart) ?? dayStart)
+        _lunchEndTime = State(initialValue: day.lunchEndTime ?? calendar.date(bySettingHour: 13, minute: 20, second: 0, of: dayStart) ?? dayStart)
+        _endTime = State(initialValue: day.endTime ?? calendar.date(bySettingHour: 16, minute: 0, second: 0, of: dayStart) ?? dayStart)
     }
     
     var body: some View {
@@ -47,6 +49,7 @@ struct DayEditorView: View {
                 }
             }
             
+
             if workDay.absenceType == nil {
                 Section(header: Text("Horaires de travail")) {
                     DatePicker("Début journée", selection: $startTime, displayedComponents: .hourAndMinute)
