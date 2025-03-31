@@ -7,8 +7,24 @@ struct DayEditorView: View {
     @State private var workDay: WorkDay
     @State private var showingAbsenceTypePicker = false
     
+    // États locaux pour gérer les horaires
+    @State private var startTime: Date
+    @State private var lunchStartTime: Date
+    @State private var lunchEndTime: Date
+    @State private var endTime: Date
+    @State private var calculatedTime: String = "00:00"
+    
     init(day: WorkDay) {
         _workDay = State(initialValue: day)
+        
+        // Initialiser les heures avec les valeurs existantes ou des valeurs par défaut
+        let calendar = Calendar.current
+        let dayStart = calendar.startOfDay(for: day.date)
+        
+        _startTime = State(initialValue: day.startTime ?? calendar.date(bySettingHour: 9, minute: 0, second: 0, of: dayStart) ?? dayStart)
+        _lunchStartTime = State(initialValue: day.lunchStartTime ?? calendar.date(bySettingHour: 12, minute: 0, second: 0, of: dayStart) ?? dayStart)
+        _lunchEndTime = State(initialValue: day.lunchEndTime ?? calendar.date(bySettingHour: 13, minute: 0, second: 0, of: dayStart) ?? dayStart)
+        _endTime = State(initialValue: day.endTime ?? calendar.date(bySettingHour: 18, minute: 0, second: 0, of: dayStart) ?? dayStart)
     }
     
     var body: some View {
@@ -31,33 +47,26 @@ struct DayEditorView: View {
                 }
             }
             
-            if workDay.isWorkday {
+            if workDay.absenceType == nil {
                 Section(header: Text("Horaires de travail")) {
-                    TimePickerRow(title: "Début journée", time: Binding(
-                        get: { workDay.startTime ?? Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: workDay.date) ?? workDay.date },
-                        set: { workDay.startTime = $0 }
-                    ))
+                    DatePicker("Début journée", selection: $startTime, displayedComponents: .hourAndMinute)
+                        .onChange(of: startTime) { _ in updateCalculation() }
                     
-                    TimePickerRow(title: "Début pause", time: Binding(
-                        get: { workDay.lunchStartTime ?? Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: workDay.date) ?? workDay.date },
-                        set: { workDay.lunchStartTime = $0 }
-                    ))
+                    DatePicker("Début pause", selection: $lunchStartTime, displayedComponents: .hourAndMinute)
+                        .onChange(of: lunchStartTime) { _ in updateCalculation() }
                     
-                    TimePickerRow(title: "Fin pause", time: Binding(
-                        get: { workDay.lunchEndTime ?? Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: workDay.date) ?? workDay.date },
-                        set: { workDay.lunchEndTime = $0 }
-                    ))
+                    DatePicker("Fin pause", selection: $lunchEndTime, displayedComponents: .hourAndMinute)
+                        .onChange(of: lunchEndTime) { _ in updateCalculation() }
                     
-                    TimePickerRow(title: "Fin journée", time: Binding(
-                        get: { workDay.endTime ?? Calendar.current.date(bySettingHour: 18, minute: 0, second: 0, of: workDay.date) ?? workDay.date },
-                        set: { workDay.endTime = $0 }
-                    ))
+                    DatePicker("Fin journée", selection: $endTime, displayedComponents: .hourAndMinute)
+                        .onChange(of: endTime) { _ in updateCalculation() }
                     
                     HStack {
                         Text("Temps travaillé")
                         Spacer()
-                        Text(calculatedWorkedTime)
+                        Text(calculatedTime)
                             .bold()
+                            .foregroundColor(.blue)
                     }
                 }
             }
@@ -69,6 +78,9 @@ struct DayEditorView: View {
             
             Section {
                 Button("Enregistrer") {
+                    // Mettre à jour le workDay avec les valeurs actuelles
+                    updateWorkDayFromFields()
+                    
                     // Mise à jour du jour dans le ViewModel
                     workViewModel.updateWorkDay(workDay)
                     
@@ -83,34 +95,41 @@ struct DayEditorView: View {
             }
         }
         .navigationTitle("Modifier Journée")
+        .onAppear {
+            // Calculer le temps travaillé dès l'apparition de la vue
+            updateCalculation()
+        }
         .onDisappear {
             // Sauvegarder également au départ de la vue
+            updateWorkDayFromFields()
             workViewModel.saveData()
         }
+    }
+    
+    private func updateWorkDayFromFields() {
+        // Mettre à jour workDay avec les valeurs actuelles des champs
+        if workDay.absenceType == nil {
+            workDay.startTime = startTime
+            workDay.lunchStartTime = lunchStartTime
+            workDay.lunchEndTime = lunchEndTime
+            workDay.endTime = endTime
+        }
+    }
+    
+    private func updateCalculation() {
+        let workedTime = TimeCalculator.calculateWorkedTime(
+            startTime: startTime,
+            lunchStartTime: lunchStartTime,
+            lunchEndTime: lunchEndTime,
+            endTime: endTime
+        )
+        
+        calculatedTime = TimeCalculator.formatTimeInterval(workedTime)
     }
     
     var formattedDate: String {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
         return formatter.string(from: workDay.date)
-    }
-    
-    var calculatedWorkedTime: String {
-        if let startTime = workDay.startTime,
-           let lunchStartTime = workDay.lunchStartTime,
-           let lunchEndTime = workDay.lunchEndTime,
-           let endTime = workDay.endTime {
-            
-            let workedTime = TimeCalculator.calculateWorkedTime(
-                startTime: startTime,
-                lunchStartTime: lunchStartTime,
-                lunchEndTime: lunchEndTime,
-                endTime: endTime
-            )
-            
-            return TimeCalculator.formatTimeInterval(workedTime)
-        }
-        
-        return "00:00"
     }
 }

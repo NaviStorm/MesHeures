@@ -1,4 +1,3 @@
-// Fichier: Utils/TimeCalculator.swift
 import Foundation
 
 struct TimeCalculator {
@@ -12,39 +11,75 @@ struct TimeCalculator {
         
         // Extraction des composants date et heure pour les calculs
         let calendar = Calendar.current
-        let workdayStart = calendar.date(bySettingHour: calendar.component(.hour, from: settings.dayStartTime),
-                                        minute: calendar.component(.minute, from: settings.dayStartTime),
-                                        second: 0, of: startTime) ?? startTime
-        let workdayEnd = calendar.date(bySettingHour: calendar.component(.hour, from: settings.dayEndTime),
-                                      minute: calendar.component(.minute, from: settings.dayEndTime),
-                                      second: 0, of: endTime) ?? endTime
+        
+        // Créer des dates combinant la date de base avec les heures appropriées
+        let baseDate = calendar.startOfDay(for: startTime)
+        
+        // S'assurer que toutes les heures sont sur la même date de base
+        let normalizedStartTime = combineDateTime(baseDate: baseDate, timeFromDate: startTime)
+        let normalizedLunchStartTime = combineDateTime(baseDate: baseDate, timeFromDate: lunchStartTime)
+        let normalizedLunchEndTime = combineDateTime(baseDate: baseDate, timeFromDate: lunchEndTime)
+        let normalizedEndTime = combineDateTime(baseDate: baseDate, timeFromDate: endTime)
+        
+        // Extraction des limites de la journée de travail
+        let workdayStartComponents = calendar.dateComponents([.hour, .minute, .second], from: settings.dayStartTime)
+        let workdayStart = calendar.date(bySettingHour: workdayStartComponents.hour ?? 7,
+                                         minute: workdayStartComponents.minute ?? 0,
+                                         second: 0,
+                                         of: baseDate) ?? baseDate
+        
+        let workdayEndComponents = calendar.dateComponents([.hour, .minute, .second], from: settings.dayEndTime)
+        let workdayEnd = calendar.date(bySettingHour: workdayEndComponents.hour ?? 19,
+                                      minute: workdayEndComponents.minute ?? 0,
+                                      second: 0,
+                                      of: baseDate) ?? baseDate
         
         // Application des règles
         // 1. Si début avant l'heure minimum, ajuster au minimum
-        let effectiveStartTime = startTime < workdayStart ? workdayStart : startTime
+        let effectiveStartTime = normalizedStartTime < workdayStart ? workdayStart : normalizedStartTime
         
         // 2. Si fin après l'heure maximum, ajuster au maximum
-        let effectiveEndTime = endTime > workdayEnd ? workdayEnd : endTime
+        let effectiveEndTime = normalizedEndTime > workdayEnd ? workdayEnd : normalizedEndTime
         
         // 3. Calcul de la durée de la pause repas
-        let lunchDuration = lunchEndTime.timeIntervalSince(lunchStartTime)
-        let effectiveLunchDuration = max(lunchDuration, settings.minLunchDuration)
+        let lunchDuration = normalizedLunchEndTime.timeIntervalSince(normalizedLunchStartTime)
         
         // 4. Si la pause est inférieure au minimum, ajuster
         let effectiveLunchEndTime: Date
         if lunchDuration < settings.minLunchDuration {
-            effectiveLunchEndTime = lunchStartTime.addingTimeInterval(settings.minLunchDuration)
+            effectiveLunchEndTime = normalizedLunchStartTime.addingTimeInterval(settings.minLunchDuration)
         } else {
-            effectiveLunchEndTime = lunchEndTime
+            effectiveLunchEndTime = normalizedLunchEndTime
         }
         
-        // Calcul du temps travaillé
-        let morningWork = lunchStartTime.timeIntervalSince(effectiveStartTime)
+        // 5. Calcul du temps travaillé
+        let morningWork = normalizedLunchStartTime.timeIntervalSince(effectiveStartTime)
         let afternoonWork = effectiveEndTime.timeIntervalSince(effectiveLunchEndTime)
         let totalWork = morningWork + afternoonWork
         
-        // 5. Limitation à la durée maximale journalière
+        // Debug information
+        print("Base date: \(baseDate)")
+        print("Effective start: \(effectiveStartTime)")
+        print("Lunch start: \(normalizedLunchStartTime)")
+        print("Lunch end: \(effectiveLunchEndTime)")
+        print("Effective end: \(effectiveEndTime)")
+        print("Morning work: \(formatTimeInterval(morningWork))")
+        print("Afternoon work: \(formatTimeInterval(afternoonWork))")
+        print("Total work: \(formatTimeInterval(totalWork))")
+        
+        // 6. Limitation à la durée maximale journalière
         return min(totalWork, settings.maxDayDuration)
+    }
+    
+    // Fonction pour combiner une date de base avec l'heure d'une autre date
+    static func combineDateTime(baseDate: Date, timeFromDate: Date) -> Date {
+        let calendar = Calendar.current
+        let timeComponents = calendar.dateComponents([.hour, .minute, .second], from: timeFromDate)
+        
+        return calendar.date(bySettingHour: timeComponents.hour ?? 0,
+                             minute: timeComponents.minute ?? 0,
+                             second: timeComponents.second ?? 0,
+                             of: baseDate) ?? baseDate
     }
     
     // Méthodes utilitaires pour les conversions de temps
@@ -57,8 +92,9 @@ struct TimeCalculator {
     }
     
     static func formatTimeInterval(_ interval: TimeInterval) -> String {
-        let hours = Int(interval) / 3600
-        let minutes = (Int(interval) % 3600) / 60
+        let totalMinutes = Int(interval) / 60
+        let hours = totalMinutes / 60
+        let minutes = totalMinutes % 60
         return String(format: "%02d:%02d", hours, minutes)
     }
     
@@ -152,5 +188,3 @@ struct TimeCalculator {
         return weeks
     }
 }
-
-
