@@ -1,20 +1,61 @@
 import Foundation
 import SwiftUI
 
-class WorkSettings: ObservableObject, Codable {
-    static let shared = WorkSettings()
+class WorkSettings: ObservableObject, Codable, Equatable {
+    // Utiliser une variable partagée mais avec @Published pour les mises à jour
+    static var shared = WorkSettings()
     
-    @Published var workDaysPerWeek: Int = 5
-    @Published var weeklyWorkDuration: TimeInterval = TimeCalculator.hoursToSeconds(39)
-    @Published var workDays: [Int] = [1, 2, 3, 4, 5] // 1 = lundi, 7 = dimanche
-    @Published var dayStartTime: Date = Calendar.current.date(bySettingHour: 7, minute: 0, second: 0, of: Date()) ?? Date()
-    @Published var dayEndTime: Date = Calendar.current.date(bySettingHour: 19, minute: 0, second: 0, of: Date()) ?? Date()
-    @Published var minLunchDuration: TimeInterval = TimeCalculator.minutesToSeconds(20)
-    @Published var maxDayDuration: TimeInterval = TimeCalculator.hoursToSeconds(10)
-    @Published var maxWeeklyOvertime: TimeInterval = TimeCalculator.hoursToSeconds(5)
-    @Published var maxPeriodOvertime: TimeInterval = TimeCalculator.hoursToSeconds(10)
-    @Published var currentPeriodColor: Color = .blue
-    @Published var currentWeekColor: Color = .green
+    @Published var workDaysPerWeek: Int = 5 {
+        didSet { objectWillChange.send() }
+    }
+    @Published var weeklyWorkDuration: TimeInterval = TimeCalculator.hoursToSeconds(39) {
+        didSet { objectWillChange.send() }
+    }
+    @Published var workDays: [Int] = [1, 2, 3, 4, 5] {
+        didSet { objectWillChange.send() }
+    }
+    @Published var dayStartTime: Date = Calendar.current.date(bySettingHour: 7, minute: 0, second: 0, of: Date()) ?? Date() {
+        didSet { objectWillChange.send() }
+    }
+    @Published var dayEndTime: Date = Calendar.current.date(bySettingHour: 19, minute: 0, second: 0, of: Date()) ?? Date() {
+        didSet { objectWillChange.send() }
+    }
+    @Published var minLunchDuration: TimeInterval = TimeCalculator.minutesToSeconds(20) {
+        didSet { objectWillChange.send() }
+    }
+    @Published var maxDayDuration: TimeInterval = TimeCalculator.hoursToSeconds(10) {
+        didSet { objectWillChange.send() }
+    }
+    @Published var maxWeeklyOvertime: TimeInterval = TimeCalculator.hoursToSeconds(5) {
+        didSet { objectWillChange.send() }
+    }
+    @Published var maxPeriodOvertime: TimeInterval = TimeCalculator.hoursToSeconds(10) {
+        didSet { objectWillChange.send() }
+    }
+    @Published var currentPeriodColor: Color = .blue {
+        didSet { objectWillChange.send() }
+    }
+    @Published var currentWeekColor: Color = .green {
+        didSet { objectWillChange.send() }
+    }
+    
+    // Fonction pour mettre à jour toutes les valeurs en une fois et émettre une seule notification
+    func updateAll(from other: WorkSettings) {
+        self.workDaysPerWeek = other.workDaysPerWeek
+        self.weeklyWorkDuration = other.weeklyWorkDuration
+        self.workDays = other.workDays
+        self.dayStartTime = other.dayStartTime
+        self.dayEndTime = other.dayEndTime
+        self.minLunchDuration = other.minLunchDuration
+        self.maxDayDuration = other.maxDayDuration
+        self.maxWeeklyOvertime = other.maxWeeklyOvertime
+        self.maxPeriodOvertime = other.maxPeriodOvertime
+        self.currentPeriodColor = other.currentPeriodColor
+        self.currentWeekColor = other.currentWeekColor
+        
+        // Une seule notification pour toutes les mises à jour
+        objectWillChange.send()
+    }
     
     // Fonction pour vérifier si un jour est un jour travaillé
     func isWorkDay(_ date: Date) -> Bool {
@@ -23,6 +64,20 @@ class WorkSettings: ObservableObject, Codable {
         // Conversion de l'index de 1=dimanche à 1=lundi pour correspondre à notre logique
         let adjustedWeekday = weekday == 1 ? 7 : weekday - 1
         return workDays.contains(adjustedWeekday)
+    }
+    
+    // Implémentation de Equatable
+    static func == (lhs: WorkSettings, rhs: WorkSettings) -> Bool {
+        return lhs.workDaysPerWeek == rhs.workDaysPerWeek &&
+               lhs.weeklyWorkDuration == rhs.weeklyWorkDuration &&
+               lhs.workDays == rhs.workDays &&
+               Calendar.current.isDate(lhs.dayStartTime, equalTo: rhs.dayStartTime, toGranularity: .minute) &&
+               Calendar.current.isDate(lhs.dayEndTime, equalTo: rhs.dayEndTime, toGranularity: .minute) &&
+               lhs.minLunchDuration == rhs.minLunchDuration &&
+               lhs.maxDayDuration == rhs.maxDayDuration &&
+               lhs.maxWeeklyOvertime == rhs.maxWeeklyOvertime &&
+               lhs.maxPeriodOvertime == rhs.maxPeriodOvertime
+        // Note: Les couleurs sont difficiles à comparer avec Equatable, donc nous les omettons ici
     }
     
     // Pour la conformité Codable (avec CodingKeys pour gérer les @Published)
