@@ -2,10 +2,9 @@ import SwiftUI
 
 struct PeriodView: View {
     @EnvironmentObject var workViewModel: WorkViewModel
+    @EnvironmentObject var navigationHelper: NavigationHelper
     @State private var period: WorkPeriod
     @State private var dragOffset = CGSize.zero
-    @State private var showingResetWeekAlert = false
-    @State private var weekToReset: WorkWeek?
     
     init(period: WorkPeriod) {
         _period = State(initialValue: period)
@@ -45,41 +44,27 @@ struct PeriodView: View {
             StatisticsView(worked: stats.worked, expected: stats.expected, overtime: stats.overtime)
                 .padding(.horizontal)
             
-            // Liste des semaines
-            List {
-                ForEach(period.weeks) { week in
-                    NavigationLink {
-                        WeekView(week: week)
-                    } label: {
-                        WeekSummaryRow(week: week)
-                            .contentShape(Rectangle())
-                            .gesture(
-                                DragGesture()
-                                    .onEnded { gesture in
-                                        // Si le geste est un glissement vers la gauche
-                                        if gesture.translation.width < -50 {
-                                            weekToReset = week
-                                            showingResetWeekAlert = true
-                                        }
-                                    }
-                            )
+            // Liste des semaines avec swipe personnalisé
+            ScrollView {
+                VStack(spacing: 8) { // Augmenter l'espacement pour éviter les chevauchements
+                    ForEach(period.weeks) { week in
+                        SwipeableWeekRow(
+                            week: week,
+                            resetAction: {
+                                resetWeek(week)
+                            },
+                            navigateAction: {
+                                navigateToWeek(week)
+                            }
+                        )
+                        .padding(.horizontal, 16)
+                        .background(Color(.systemBackground)) // Fond blanc pour chaque row
+                        .cornerRadius(8) // Arrondir les coins pour un effet visuel agréable
                     }
-                    .isDetailLink(true)
                 }
+                .padding(.vertical, 8)
             }
-            .listStyle(InsetGroupedListStyle())
-            .alert(isPresented: $showingResetWeekAlert) {
-                Alert(
-                    title: Text("Réinitialiser la semaine"),
-                    message: Text("Voulez-vous réinitialiser les données de cette semaine ?"),
-                    primaryButton: .destructive(Text("Réinitialiser")) {
-                        if let weekToReset = weekToReset {
-                            resetWeek(weekToReset)
-                        }
-                    },
-                    secondaryButton: .cancel()
-                )
-            }
+            .background(Color(.systemGroupedBackground))
         }
         .navigationTitle("Période \(period.name)")
         .onAppear {
@@ -131,6 +116,11 @@ struct PeriodView: View {
         
         // Sauvegarder les modifications
         workViewModel.saveData()
+    }
+    
+    private func navigateToWeek(_ week: WorkWeek) {
+        // Utiliser le helper de navigation pour la transition vers WeekView
+        navigationHelper.selectWeek(week)
     }
     
     private func formatDate(_ date: Date) -> String {

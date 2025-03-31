@@ -3,6 +3,8 @@ import SwiftUI
 struct MainView: View {
     @EnvironmentObject var workViewModel: WorkViewModel
     @State private var selectedTab = 0
+    @State private var selectedWeek: WorkWeek? = nil
+    @State private var navigateToWeek = false
     
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -10,6 +12,19 @@ struct MainView: View {
             NavigationView {
                 if let currentPeriod = workViewModel.currentPeriod {
                     PeriodView(period: currentPeriod)
+                        .background(
+                            // Navigation masquée pour WeekView
+                            NavigationLink(
+                                destination: Group {
+                                    if let week = selectedWeek {
+                                        WeekView(week: week)
+                                    }
+                                },
+                                isActive: $navigateToWeek
+                            ) {
+                                EmptyView()
+                            }
+                        )
                 } else {
                     Text("Période non disponible")
                         .onAppear {
@@ -69,5 +84,18 @@ struct MainView: View {
             // S'assurer que la période actuelle est chargée
             workViewModel.updateCurrentPeriod()
         }
+        .environmentObject(NavigationHelper(selectWeek: { week in
+            selectedWeek = week
+            navigateToWeek = true
+        }))
+    }
+}
+
+// Helper pour la navigation entre vues
+class NavigationHelper: ObservableObject {
+    var selectWeek: (WorkWeek) -> Void
+    
+    init(selectWeek: @escaping (WorkWeek) -> Void) {
+        self.selectWeek = selectWeek
     }
 }

@@ -38,6 +38,7 @@
 		04A1E97C27FDB27D00EA8947 /* TimeIntervalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E97B27FDB27D00EA8947 /* TimeIntervalPicker.swift */; };
 		04A1E97E27FDB29300EA8947 /* TimePickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E97D27FDB29300EA8947 /* TimePickerRow.swift */; };
 		BAACD42E2D9ACC0B0016CC51 /* TimePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAACD42D2D9ACC0B0016CC51 /* TimePickerView.swift */; };
+		BAD2DE942D9B10F5009A77EA /* SwipeableWeekRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD2DE932D9B10F5009A77EA /* SwipeableWeekRow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +75,7 @@
 		04A1E97D27FDB29300EA8947 /* TimePickerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerRow.swift; sourceTree = "<group>"; };
 		04A1E97F27FDB2AA00EA8947 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BAACD42D2D9ACC0B0016CC51 /* TimePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerView.swift; sourceTree = "<group>"; };
+		BAD2DE932D9B10F5009A77EA /* SwipeableWeekRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableWeekRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +204,7 @@
 		04A1E94427FDAF3000EA8947 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				BAD2DE932D9B10F5009A77EA /* SwipeableWeekRow.swift */,
 				BAACD42D2D9ACC0B0016CC51 /* TimePickerView.swift */,
 				04A1E95F27FDB10500EA8947 /* DaySummaryRow.swift */,
 				04A1E96127FDB11900EA8947 /* WeekSummaryRow.swift */,
@@ -305,6 +308,7 @@
 				04A1E95827FDB08600EA8947 /* DayView.swift in Sources */,
 				04A1E95227FDB04B00EA8947 /* MainView.swift in Sources */,
 				04A1E96027FDB10500EA8947 /* DaySummaryRow.swift in Sources */,
+				BAD2DE942D9B10F5009A77EA /* SwipeableWeekRow.swift in Sources */,
 				04A1E96427FDB13200EA8947 /* PeriodSummaryRow.swift in Sources */,
 				04A1E93027FDAE3D00EA8947 /* MesHeuresApp.swift in Sources */,
 				04A1E96627FDB14F00EA8947 /* WorkViewModel.swift in Sources */,
