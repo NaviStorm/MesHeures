@@ -1,4 +1,3 @@
-// Fichier: Views/Components/AbsenceTypePicker.swift
 import SwiftUI
 
 struct AbsenceTypePicker: View {
@@ -22,20 +21,24 @@ struct AbsenceTypePicker: View {
                     }
                 }
                 
-                // Options pour tous les types d'absence
-                ForEach(AbsenceType.allCases, id: \.self) { type in
-                    Button(action: {
-                        selectedType = type
-                        presentationMode.wrappedValue.dismiss()
-                    }) {
-                        HStack {
-                            Text(type.rawValue)
-                            Spacer()
-                            if selectedType == type {
-                                Image(systemName: "checkmark")
+                // Groupes d'absences
+                ForEach(AbsenceType.groupedCategories, id: \.0) { groupName, types in
+                    Section(header: Text(groupName)) {
+                        ForEach(types, id: \.self) { type in
+                            Button(action: {
+                                selectedType = type
+                                presentationMode.wrappedValue.dismiss()
+                            }) {
+                                HStack {
+                                    Text(type.rawValue)
+                                    Spacer()
+                                    if selectedType == type {
+                                        Image(systemName: "checkmark")
+                                    }
+                                }
+                                .foregroundColor(type.color)
                             }
                         }
-                        .foregroundColor(type.color)
                     }
                 }
             }
@@ -50,5 +53,3 @@ struct AbsenceTypePicker: View {
         }
     }
 }
-
-

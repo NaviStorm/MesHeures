@@ -14,8 +14,6 @@ struct DayEditorView: View {
     @State private var endTime: Date
     @State private var calculatedTime: String = "00:00"
     
-    // Modifier la partie init de DayEditorView.swift pour les heures par défaut
-
     init(day: WorkDay) {
         _workDay = State(initialValue: day)
         
@@ -49,20 +47,39 @@ struct DayEditorView: View {
                 }
             }
             
-
-            if workDay.absenceType == nil {
+            // Section horaires de travail - avec gestion des demi-journées d'absence
+            if workDay.isWorkday {
                 Section(header: Text("Horaires de travail")) {
-                    DatePicker("Début journée", selection: $startTime, displayedComponents: .hourAndMinute)
-                        .onChange(of: startTime) { _ in updateCalculation() }
+                    // Affichage conditionnel pour les demi-journées d'absence
+                    if workDay.canEditMorningHours {
+                        DatePicker("Début journée", selection: $startTime, displayedComponents: .hourAndMinute)
+                            .onChange(of: startTime) { _ in updateCalculation() }
+                        
+                        DatePicker("Début pause", selection: $lunchStartTime, displayedComponents: .hourAndMinute)
+                            .onChange(of: lunchStartTime) { _ in updateCalculation() }
+                    } else if let type = workDay.absenceType, type.isAfternoon {
+                        Text("Matin : \(type.baseType)")
+                            .foregroundColor(type.color)
+                    }
                     
-                    DatePicker("Début pause", selection: $lunchStartTime, displayedComponents: .hourAndMinute)
-                        .onChange(of: lunchStartTime) { _ in updateCalculation() }
+                    if workDay.canEditAfternoonHours {
+                        DatePicker("Fin pause", selection: $lunchEndTime, displayedComponents: .hourAndMinute)
+                            .onChange(of: lunchEndTime) { _ in updateCalculation() }
+                        
+                        DatePicker("Fin journée", selection: $endTime, displayedComponents: .hourAndMinute)
+                            .onChange(of: endTime) { _ in updateCalculation() }
+                    } else if let type = workDay.absenceType, type.isMorning {
+                        Text("Après-midi : \(type.baseType)")
+                            .foregroundColor(type.color)
+                    }
                     
-                    DatePicker("Fin pause", selection: $lunchEndTime, displayedComponents: .hourAndMinute)
-                        .onChange(of: lunchEndTime) { _ in updateCalculation() }
-                    
-                    DatePicker("Fin journée", selection: $endTime, displayedComponents: .hourAndMinute)
-                        .onChange(of: endTime) { _ in updateCalculation() }
+                    // Si c'est un jour d'absence complet comptant comme travaillé
+                    if workDay.isConsideredAsWorked &&
+                       workDay.absenceType != nil &&
+                       !(workDay.absenceType?.isHalfDay ?? false) {
+                        Text("Journée comptabilisée en tant que \(workDay.absenceType?.rawValue ?? "")")
+                            .foregroundColor(workDay.absenceType?.color ?? .primary)
+                    }
                     
                     HStack {
                         Text("Temps travaillé")
@@ -112,22 +129,42 @@ struct DayEditorView: View {
     private func updateWorkDayFromFields() {
         // Mettre à jour workDay avec les valeurs actuelles des champs
         if workDay.absenceType == nil {
+            // Jour normal travaillé
             workDay.startTime = startTime
             workDay.lunchStartTime = lunchStartTime
             workDay.lunchEndTime = lunchEndTime
             workDay.endTime = endTime
+        } else if workDay.isConsideredAsWorked && workDay.absenceType?.isHalfDay == true {
+            // Demi-journée d'absence comptant comme travaillée
+            if workDay.canEditMorningHours {
+                // Si on peut éditer le matin (absence l'après-midi)
+                workDay.startTime = startTime
+                workDay.lunchStartTime = lunchStartTime
+            }
+            
+            if workDay.canEditAfternoonHours {
+                // Si on peut éditer l'après-midi (absence le matin)
+                workDay.lunchEndTime = lunchEndTime
+                workDay.endTime = endTime
+            }
         }
     }
     
     private func updateCalculation() {
-        let workedTime = TimeCalculator.calculateWorkedTime(
-            startTime: startTime,
-            lunchStartTime: lunchStartTime,
-            lunchEndTime: lunchEndTime,
-            endTime: endTime
-        )
-        
-        calculatedTime = TimeCalculator.formatTimeInterval(workedTime)
+        if workDay.absenceType == nil {
+            // Jour normal travaillé - calcul standard
+            let workedTime = TimeCalculator.calculateWorkedTime(
+                startTime: startTime,
+                lunchStartTime: lunchStartTime,
+                lunchEndTime: lunchEndTime,
+                endTime: endTime
+            )
+            calculatedTime = TimeCalculator.formatTimeInterval(workedTime)
+        } else {
+            // Utiliser le calcul spécial pour les absences
+            let updatedDay = workDay
+            calculatedTime = updatedDay.formattedWorkedTime
+        }
     }
     
     var formattedDate: String {

@@ -1,4 +1,3 @@
-// Fichier: Views/Components/DaySummaryRow.swift
 import SwiftUI
 
 struct DaySummaryRow: View {
@@ -18,17 +17,51 @@ struct DaySummaryRow: View {
             if let absenceType = day.absenceType {
                 // Jour d'absence
                 VStack(alignment: .leading) {
-                    Text(absenceType.rawValue)
-                        .foregroundColor(absenceType.color)
+                    if absenceType.isHalfDay {
+                        // Demi-journée d'absence
+                        if absenceType.isMorning {
+                            Text("\(absenceType.baseType) (Matin)")
+                                .foregroundColor(absenceType.color)
+                            
+                            if let lunchEndTime = day.lunchEndTime, let endTime = day.endTime {
+                                Text("Après-midi: \(formatTime(lunchEndTime)) - \(formatTime(endTime))")
+                                    .font(.caption)
+                            }
+                        } else if absenceType.isAfternoon {
+                            Text("\(absenceType.baseType) (Après-midi)")
+                                .foregroundColor(absenceType.color)
+                            
+                            if let startTime = day.startTime, let lunchStartTime = day.lunchStartTime {
+                                Text("Matin: \(formatTime(startTime)) - \(formatTime(lunchStartTime))")
+                                    .font(.caption)
+                            }
+                        } else {
+                            // RTT_HALF, REC_HALF (ancienne notation)
+                            Text(absenceType.rawValue)
+                                .foregroundColor(absenceType.color)
+                        }
+                    } else {
+                        // Journée complète d'absence
+                        Text(absenceType.rawValue)
+                            .foregroundColor(absenceType.color)
+                    }
+                    
                     if !day.notes.isEmpty {
                         Text(day.notes)
                             .font(.caption)
                             .lineLimit(1)
                     }
                 }
+                
                 Spacer()
-            } else if let startTime = day.startTime, 
-                      let lunchStartTime = day.lunchStartTime, 
+                
+                // Si l'absence compte comme travaillée, afficher le temps
+                if day.isConsideredAsWorked {
+                    Text(day.formattedWorkedTime)
+                        .bold()
+                }
+            } else if let startTime = day.startTime,
+                      let lunchStartTime = day.lunchStartTime,
                       let lunchEndTime = day.lunchEndTime,
                       let endTime = day.endTime {
                 // Jour travaillé avec horaires
@@ -81,5 +114,3 @@ struct DaySummaryRow: View {
         return formatter.string(from: date)
     }
 }
-
-
