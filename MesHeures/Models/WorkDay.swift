@@ -102,7 +102,6 @@ struct WorkDay: Identifiable, Codable {
     
     // Méthode pour définir des horaires standard basés sur les paramètres
     mutating func setDefaultTimes() {
-        let settings = WorkSettings.shared
         let calendar = Calendar.current
         let dayStart = calendar.startOfDay(for: date)
         
