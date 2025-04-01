@@ -38,6 +38,7 @@
 		04A1E97C27FDB27D00EA8947 /* TimeIntervalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E97B27FDB27D00EA8947 /* TimeIntervalPicker.swift */; };
 		04A1E97E27FDB29300EA8947 /* TimePickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1E97D27FDB29300EA8947 /* TimePickerRow.swift */; };
 		BAACD42E2D9ACC0B0016CC51 /* TimePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAACD42D2D9ACC0B0016CC51 /* TimePickerView.swift */; };
+		BAB1433E2D9C65DE00E4C79B /* PeriodsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1433D2D9C65DE00E4C79B /* PeriodsView.swift */; };
 		BAD2DE942D9B10F5009A77EA /* SwipeableWeekRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD2DE932D9B10F5009A77EA /* SwipeableWeekRow.swift */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +76,7 @@
 		04A1E97D27FDB29300EA8947 /* TimePickerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerRow.swift; sourceTree = "<group>"; };
 		04A1E97F27FDB2AA00EA8947 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BAACD42D2D9ACC0B0016CC51 /* TimePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerView.swift; sourceTree = "<group>"; };
+		BAB1433D2D9C65DE00E4C79B /* PeriodsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodsView.swift; sourceTree = "<group>"; };
 		BAD2DE932D9B10F5009A77EA /* SwipeableWeekRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableWeekRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -158,6 +160,7 @@
 				04A1E95527FDB07500EA8947 /* WeekView.swift */,
 				04A1E95727FDB08600EA8947 /* DayView.swift */,
 				04A1E95927FDB09800EA8947 /* DayEditorView.swift */,
+				BAB1433D2D9C65DE00E4C79B /* PeriodsView.swift */,
 				04A1E95B27FDB0AA00EA8947 /* SettingsView.swift */,
 			);
 			path = Views;
@@ -303,6 +306,7 @@
 				04A1E95027FDB02400EA8947 /* AbsenceType.swift in Sources */,
 				BAACD42E2D9ACC0B0016CC51 /* TimePickerView.swift in Sources */,
 				04A1E97427FDB1FB00EA8947 /* NotificationService.swift in Sources */,
+				BAB1433E2D9C65DE00E4C79B /* PeriodsView.swift in Sources */,
 				04A1E97027FDB1CC00EA8947 /* ColorExtensions.swift in Sources */,
 				04A1E94C27FDAFF000EA8947 /* WorkPeriod.swift in Sources */,
 				04A1E95827FDB08600EA8947 /* DayView.swift in Sources */,

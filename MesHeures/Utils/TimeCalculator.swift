@@ -57,16 +57,6 @@ struct TimeCalculator {
         let afternoonWork = effectiveEndTime.timeIntervalSince(effectiveLunchEndTime)
         let totalWork = morningWork + afternoonWork
         
-        // Debug information
-        print("Base date: \(baseDate)")
-        print("Effective start: \(effectiveStartTime)")
-        print("Lunch start: \(normalizedLunchStartTime)")
-        print("Lunch end: \(effectiveLunchEndTime)")
-        print("Effective end: \(effectiveEndTime)")
-        print("Morning work: \(formatTimeInterval(morningWork))")
-        print("Afternoon work: \(formatTimeInterval(afternoonWork))")
-        print("Total work: \(formatTimeInterval(totalWork))")
-        
         // 6. Limitation à la durée maximale journalière
         return min(totalWork, settings.maxDayDuration)
     }
@@ -98,61 +88,105 @@ struct TimeCalculator {
         return String(format: "%02d:%02d", hours, minutes)
     }
     
-    // Fonction pour calculer les périodes de travail selon les spécifications
+    // Fonction mise à jour pour calculer les périodes de travail selon la nouvelle définition
     static func generateWorkPeriods(for year: Int) -> [WorkPeriod] {
         var periods: [WorkPeriod] = []
-        
-        // Définition des périodes selon les spécifications
-        let periodDefinitions: [(name: String, startOffset: (month: Int, day: Int), endOffset: (month: Int, day: Int))] = [
-            ("Janvier", (month: 12, day: 30), (month: 1, day: 26)),
-            ("Février", (month: 1, day: 27), (month: 2, day: 23)),
-            ("Mars", (month: 2, day: 24), (month: 3, day: 30)),
-            ("Avril", (month: 3, day: 31), (month: 4, day: 27)),
-            ("Mai", (month: 4, day: 28), (month: 5, day: 25)),
-            ("Juin", (month: 5, day: 26), (month: 6, day: 29)),
-            ("Juillet", (month: 6, day: 30), (month: 7, day: 27)),
-            ("Août", (month: 7, day: 28), (month: 8, day: 31)),
-            ("Septembre", (month: 9, day: 1), (month: 9, day: 28)),
-            ("Octobre", (month: 9, day: 29), (month: 10, day: 26)),
-            ("Novembre", (month: 10, day: 27), (month: 11, day: 30)),
-            ("Décembre", (month: 12, day: 1), (month: 12, day: 28))
-        ]
-        
         let calendar = Calendar.current
         
-        for definition in periodDefinitions {
-            // Pour janvier, la date de début est en décembre de l'année précédente
-            let startYear = definition.name == "Janvier" ? year - 1 : year
-            let endYear = definition.name == "Décembre" && definition.endOffset.month < definition.startOffset.month ? year + 1 : year
+        // Pour chaque mois de l'année
+        for month in 1...12 {
+            // Créer une date pour le premier jour du mois
+            var firstDayComponents = DateComponents()
+            firstDayComponents.year = year
+            firstDayComponents.month = month
+            firstDayComponents.day = 1
             
-            var startComponents = DateComponents()
-            startComponents.year = startYear
-            startComponents.month = definition.startOffset.month
-            startComponents.day = definition.startOffset.day
-            
-            var endComponents = DateComponents()
-            endComponents.year = endYear
-            endComponents.month = definition.endOffset.month
-            endComponents.day = definition.endOffset.day
-            
-            guard let startDate = calendar.date(from: startComponents),
-                  let endDate = calendar.date(from: endComponents) else {
+            guard let firstDayOfMonth = calendar.date(from: firstDayComponents) else {
                 continue
             }
             
-            // Création de la période
-            var period = WorkPeriod(name: definition.name, startDate: startDate, endDate: endDate)
+            // Trouver tous les dimanches du mois
+            var allSundaysInMonth: [Date] = []
             
-            // Génération des semaines pour cette période
-            period.weeks = generateWorkWeeks(from: startDate, to: endDate)
+            // Trouver le premier dimanche
+            var currentDate = firstDayOfMonth
+            while calendar.component(.weekday, from: currentDate) != 1 { // 1 = dimanche
+                currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate) ?? currentDate
+            }
             
-            periods.append(period)
+            // Maintenant, collecter tous les dimanches du mois
+            let endOfMonthComponents = calendar.dateComponents([.year, .month], from: firstDayOfMonth)
+            let nextMonth = calendar.date(byAdding: DateComponents(month: 1, day: -1), to: calendar.date(from: endOfMonthComponents)!) ?? firstDayOfMonth
+            
+            while currentDate <= nextMonth {
+                allSundaysInMonth.append(currentDate)
+                currentDate = calendar.date(byAdding: .day, value: 7, to: currentDate) ?? currentDate
+            }
+            
+            // Si le mois n'a pas de dimanches (cas très rare), passer au mois suivant
+            if allSundaysInMonth.isEmpty {
+                continue
+            }
+            
+            // Pour chaque dimanche, calculer la semaine qui le contient (lundi au dimanche)
+            var weekStartDates: [Date] = []
+            var weekEndDates: [Date] = []
+            
+            for sunday in allSundaysInMonth {
+                // Lundi de la semaine (6 jours avant le dimanche)
+                if let monday = calendar.date(byAdding: .day, value: -6, to: sunday) {
+                    weekStartDates.append(monday)
+                    weekEndDates.append(sunday)
+                }
+            }
+            
+            // Créer une période pour le mois avec toutes ces semaines
+            if !weekStartDates.isEmpty {
+                let periodName = monthName(for: month) // Nom du mois sans l'année
+                let periodStartDate = weekStartDates.first!
+                let periodEndDate = weekEndDates.last!
+                
+                // Créer la période avec le nom sans l'année (l'année sera ajoutée dans la propriété fullName)
+                var period = WorkPeriod(name: periodName, startDate: periodStartDate, endDate: periodEndDate)
+                
+                // Générer toutes les semaines pour cette période
+                var weeks: [WorkWeek] = []
+                
+                for i in 0..<weekStartDates.count {
+                    let weekStart = weekStartDates[i]
+                    let weekEnd = weekEndDates[i]
+                    
+                    var week = WorkWeek(startDate: weekStart, endDate: weekEnd)
+                    
+                    // Générer les jours pour cette semaine
+                    var days: [WorkDay] = []
+                    var dayDate = weekStart
+                    
+                    while dayDate <= weekEnd {
+                        days.append(WorkDay(date: dayDate))
+                        dayDate = calendar.date(byAdding: .day, value: 1, to: dayDate) ?? dayDate
+                    }
+                    
+                    week.days = days
+                    weeks.append(week)
+                }
+                
+                period.weeks = weeks
+                periods.append(period)
+            }
         }
         
         return periods
     }
     
-    // Fonction pour générer les semaines de travail d'une période
+    // Fonction auxiliaire pour obtenir le nom du mois
+    private static func monthName(for month: Int) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "fr_FR")
+        return formatter.monthSymbols[month - 1].capitalized
+    }
+    
+    // Fonction pour générer les semaines de travail - obsolète mais gardée pour compatibilité
     static func generateWorkWeeks(from startDate: Date, to endDate: Date) -> [WorkWeek] {
         var weeks: [WorkWeek] = []
         let calendar = Calendar.current

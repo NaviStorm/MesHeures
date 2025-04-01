@@ -40,35 +40,13 @@ struct MainView: View {
             }
             .tag(0)
             
-            // Vue pour afficher toutes les périodes
-            NavigationView {
-                List {
-                    ForEach(workViewModel.periods) { period in
-                        NavigationLink {
-                            PeriodView(period: period)
-                        } label: {
-                            HStack {
-                                Text(period.name)
-                                Spacer()
-                                Text(period.formattedTotalWorkedTime)
-                                
-                                if period.containsCurrentDate() {
-                                    Circle()
-                                        .fill(WorkSettings.shared.currentPeriodColor)
-                                        .frame(width: 10, height: 10)
-                                }
-                            }
-                        }
-                    }
+            // Vue pour afficher les périodes par année
+            PeriodsView()
+                .environmentObject(workViewModel)
+                .tabItem {
+                    Label("Périodes", systemImage: "list.bullet")
                 }
-                .navigationTitle("Périodes")
-                .listStyle(InsetGroupedListStyle())
-            }
-            .navigationViewStyle(StackNavigationViewStyle())
-            .tabItem {
-                Label("Périodes", systemImage: "list.bullet")
-            }
-            .tag(1)
+                .tag(1)
             
             // Vue des paramètres
             NavigationView {

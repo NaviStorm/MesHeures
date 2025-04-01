@@ -1,4 +1,3 @@
-// Fichier: Models/WorkPeriod.swift
 import Foundation
 
 struct WorkPeriod: Identifiable, Codable {
@@ -7,6 +6,37 @@ struct WorkPeriod: Identifiable, Codable {
     var startDate: Date
     var endDate: Date
     var weeks: [WorkWeek] = []
+    
+    // Propriété calculée pour obtenir l'année de la période
+    var year: Int {
+        let calendar = Calendar.current
+        // Nous utilisons la date des dimanches pour déterminer l'année de la période
+        // En règle générale, on peut utiliser n'importe quel dimanche de la période,
+        // mais par précaution, utilisons le premier dimanche de la période
+        let firstSunday = getFirstSunday()
+        return calendar.component(.year, from: firstSunday ?? startDate)
+    }
+    
+    // Obtenir le premier dimanche de la période
+    private func getFirstSunday() -> Date? {
+        let calendar = Calendar.current
+        var currentDate = startDate
+        
+        // Chercher le premier dimanche
+        while currentDate <= endDate {
+            if calendar.component(.weekday, from: currentDate) == 1 { // 1 = dimanche
+                return currentDate
+            }
+            currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate) ?? currentDate
+        }
+        
+        return nil
+    }
+    
+    // Propriété calculée pour obtenir le nom complet incluant l'année
+    var fullName: String {
+        return "\(name) \(year)"
+    }
     
     var totalWorkedTime: TimeInterval {
         return weeks.reduce(0) { $0 + $1.totalWorkedTime }
@@ -31,5 +61,3 @@ struct WorkPeriod: Identifiable, Codable {
         return currentDate >= startDate && currentDate <= endDate
     }
 }
-
-

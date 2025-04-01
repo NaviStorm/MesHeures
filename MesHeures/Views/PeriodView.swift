@@ -12,9 +12,9 @@ struct PeriodView: View {
     
     var body: some View {
         VStack {
-            // En-tête avec le nom de la période et les dates
+            // En-tête avec le nom de la période, l'année et les dates
             HStack {
-                Text(period.name)
+                Text(period.fullName) // Utilisation du nom complet incluant l'année
                     .font(.title)
                 Spacer()
                 VStack(alignment: .trailing) {
@@ -46,7 +46,7 @@ struct PeriodView: View {
             
             // Liste des semaines avec swipe personnalisé
             ScrollView {
-                VStack(spacing: 8) { // Augmenter l'espacement pour éviter les chevauchements
+                VStack(spacing: 8) { // Espacement entre les éléments
                     ForEach(period.weeks) { week in
                         SwipeableWeekRow(
                             week: week,
@@ -66,7 +66,7 @@ struct PeriodView: View {
             }
             .background(Color(.systemGroupedBackground))
         }
-        .navigationTitle("Période \(period.name)")
+        .navigationTitle(period.fullName) // Titre de navigation incluant l'année
         .onAppear {
             // Assurez-vous que la période est à jour lorsque la vue apparaît
             if let updatedPeriod = workViewModel.periods.first(where: { $0.id == period.id }) {
@@ -76,22 +76,17 @@ struct PeriodView: View {
     }
     
     private func navigateToAdjacentPeriod(_ isPrevious: Bool) {
-        // Trouver l'index de la période actuelle
-        guard let currentIndex = workViewModel.periods.firstIndex(where: { $0.id == period.id }) else {
-            return
-        }
-        
-        let targetIndex: Int
         if isPrevious {
-            // Naviguer vers la période précédente
-            targetIndex = currentIndex > 0 ? currentIndex - 1 : workViewModel.periods.count - 1
+            // Naviguer vers la période précédente (chronologiquement)
+            if let previousPeriod = workViewModel.getPreviousPeriod(before: period) {
+                self.period = previousPeriod
+            }
         } else {
-            // Naviguer vers la période suivante
-            targetIndex = (currentIndex + 1) % workViewModel.periods.count
+            // Naviguer vers la période suivante (chronologiquement)
+            if let nextPeriod = workViewModel.getNextPeriod(after: period) {
+                self.period = nextPeriod
+            }
         }
-        
-        // Mettre à jour la période affichée
-        self.period = workViewModel.periods[targetIndex]
     }
     
     private func resetWeek(_ week: WorkWeek) {
